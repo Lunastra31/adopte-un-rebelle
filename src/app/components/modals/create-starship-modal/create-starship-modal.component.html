@@ -1,1 +1,27 @@
-<p>create-starship-modal works!</p>
+<form [formGroup]="form" class="form">
+  <div class="dialog-container">
+    <h1 mat-dialog-title>Ajouter un nouveau vaisseau</h1>
+    <div mat-dialog-content class="form-container">
+      <mat-form-field appearance="fill">
+        <mat-label>Nom de vaisseau</mat-label>
+        <input matInput formControlName="name" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Choisir un type de vaisseau</mat-label>
+        <mat-select disableRipple formControlName="starshipType">
+          <mat-option [value]="starshipType" *ngFor="let starshipType of starshipTypes">
+            {{ starshipType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button
+        type="submit"
+        mat-raised-button
+        color="primary"
+        (click)="handleAddStarship()"
+      >
+        Ajouter
+      </button>
+    </div>
+  </div>
+</form>

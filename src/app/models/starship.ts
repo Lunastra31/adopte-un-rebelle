@@ -3,7 +3,12 @@ import { StarshipType } from "./enums/starship-type";
 import { Pilot } from "./pilot";
 
 export interface Starship {
-    starshipType:StarshipType;
-    starshipStatus:StarshipStatus;
-    pilot:Pilot;
+
+    name: string;
+
+    starshipType: StarshipType;
+
+    starshipStatus: StarshipStatus;
+
+    pilot: Pilot;
 }

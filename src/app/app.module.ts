@@ -27,6 +27,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatRadioModule} from "@angular/material/radio";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import {MatRadioModule} from "@angular/material/radio";
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     MatButtonModule,
     MatCardModule,

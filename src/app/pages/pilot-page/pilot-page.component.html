@@ -1,1 +1,93 @@
-<p>pilot-page works!</p>
+<div class="container">
+  <div class="title">
+    <h2>Matériel</h2>
+  </div>
+
+  <mat-card>
+    <mat-card-content class="filter">
+      <mat-form-field>
+        <mat-label>Filtrer</mat-label>
+        <input matInput (keyup)="applyFilter($event)" #input />
+      </mat-form-field>
+      <mat-radio-group
+        aria-label="Select an option"
+        [(ngModel)]="selectedFilter"
+        (change)="handleFilterChange($event)"
+      >
+        <mat-radio-button value="all">Tout</mat-radio-button>
+        <mat-radio-button value="APPRENTI">En formation</mat-radio-button>
+        <mat-radio-button value="DISPONIBLE">Opérationnels</mat-radio-button>
+        <mat-radio-button value="BLESSE">Blessés</mat-radio-button>
+        <mat-radio-button value="DECEDE">Décédées</mat-radio-button>
+      </mat-radio-group>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="redirectToAddPilot()"
+      >
+        Ajouter
+      </button>
+    </mat-card-content>
+  </mat-card>
+  <div class="table">
+    <table mat-table matSort [dataSource]="dataSource">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Prénom</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.name }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="surname">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Nom</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.surname }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="pilotBreed">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Race</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.pilotBreed }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="pilotStatus">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.pilotStatus }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="pilotRank">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Grade</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.pilotRank }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="flightHours">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Heure de vol</th>
+        <td mat-cell>
+          {{ flightHours }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="missions">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Missions</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.mission }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell information_if_no_data" colspan="4">No data</td>
+      </tr>
+    </table>
+    <mat-paginator
+      [pageSizeOptions]="[10, 25, 50, 100]"
+      aria-label="Select page of users"
+    ></mat-paginator>
+  </div>
+</div>

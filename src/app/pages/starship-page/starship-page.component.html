@@ -1,1 +1,107 @@
-<p>starship-page works!</p>
+<div class="container">
+  <div class="title">
+    <h2>Vaisseaux</h2>
+  </div>
+
+  <mat-card>
+    <mat-card-content class="filter">
+      <mat-form-field>
+        <mat-label>Filtrer</mat-label>
+        <input matInput (keyup)="applyFilter($event)" #input />
+      </mat-form-field>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="redirectToAddStarship()"
+      >
+        Ajouter un vaisseau
+      </button>
+    </mat-card-content>
+  </mat-card>
+  <div class="table">
+    <table mat-table matSort [dataSource]="dataSource">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Nom</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.name }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="starshipType">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Type</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.starshipType }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="starshipStatus">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Statut</th>
+        <td mat-cell *matCellDef="let element">
+          {{element.starshipStatus}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="changeStatus">
+        <th mat-header-cell [ngClass]="'importantField'" *matHeaderCellDef>
+          Changer le statut du vaisseau
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="changeStarshipStatut()"
+          >
+            Changer statut
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="pilot">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Pilote</th>
+        <td mat-cell *matCellDef="let element">
+          {{element.pilot}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="affectPilot">
+        <th mat-header-cell [ngClass]="'importantField'" *matHeaderCellDef>
+          Affecter un pilote
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="redirectToAffectPilot()"
+          >
+            Affecter un pilote
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="disusedPilot">
+        <th mat-header-cell [ngClass]="'importantField'" *matHeaderCellDef>
+          Désaffecter un pilote
+        </th>
+        <td mat-cell *matCellDef="let element">
+
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="disuedPilot()"
+          >
+            Désaffecter un pilote
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell information_if_no_data" colspan="4">No data</td>
+      </tr>
+    </table>
+    <mat-paginator
+      [pageSizeOptions]="[10, 25, 50, 100]"
+      aria-label="Select page of users"
+    ></mat-paginator>
+  </div>
+</div>
