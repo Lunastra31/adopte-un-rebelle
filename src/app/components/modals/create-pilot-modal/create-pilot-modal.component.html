@@ -1,1 +1,31 @@
-<p>create-pilot-modal works!</p>
+<form [formGroup]="form" class="form">
+  <div class="dialog-container">
+    <h1 mat-dialog-title>Ajouter un nouveau pilote</h1>
+    <div mat-dialog-content class="form-container">
+      <mat-form-field appearance="fill">
+        <mat-label>Nom</mat-label>
+        <input matInput formControlName="name" />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Prénom</mat-label>
+        <input matInput formControlName="surname" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Choisir une race</mat-label>
+        <mat-select disableRipple formControlName="pilotBreed">
+          <mat-option [value]="pilotBreed" *ngFor="let pilotBreed of pilotBreeds">
+            {{ pilotBreed }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button
+        type="submit"
+        mat-raised-button
+        color="primary"
+        (click)="handleAddPilot()"
+      >
+        Ajouter le pilote
+      </button>
+    </div>
+  </div>
+</form>

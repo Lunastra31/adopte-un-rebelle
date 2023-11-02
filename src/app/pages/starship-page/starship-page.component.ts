@@ -57,7 +57,7 @@ export class StarshipPageComponent implements OnInit {
     })
   }
 
-  redirectToAddStarship() {
+  redirectToAddStarship() : void {
     const dialogData = new CreateStarshipModalModel("Création d'un nouveau vaisseau");
     this.dialog
       .open(CreateStarshipModalComponent, {
@@ -72,19 +72,24 @@ export class StarshipPageComponent implements OnInit {
       });
   }
 
-  applyFilter($event: KeyboardEvent) {
+  applyFilter(event: Event) : void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  changeStarshipStatut() : void {
 
   }
 
-  changeStarshipStatut() {
+  redirectToAffectPilot() : void {
 
   }
 
-  redirectToAffectPilot() {
-
-  }
-
-  disuedPilot() {
+  disuedPilot() : void {
 
   }
 }
