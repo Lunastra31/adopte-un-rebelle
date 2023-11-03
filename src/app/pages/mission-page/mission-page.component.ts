@@ -5,6 +5,7 @@ import { MatRadioChange } from '@angular/material/radio';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { AddPilotsToMissionModalModel } from 'src/app/components/modals/add-pilots-to-mission-modal/add-pilots-to-mission-modal.component';
 import {
   CreateMissionModalComponent,
   CreateMissionModalModel
@@ -71,6 +72,21 @@ export class MissionPageComponent implements OnInit {
           this.getAllMissions();
         }
       });
+  }
+
+  selectPilot(){
+    const dialogData = new AddPilotsToMissionModalModel('Ajouter des pilotes');
+    this.dialog
+    .open(CreateMissionModalComponent, {
+      maxWidth: '1000px',
+      data: dialogData,
+    })
+    .afterClosed()
+    .subscribe((res) => {
+      if (res === true) {
+        this.getAllMissions();
+      }
+    });
   }
 
   applyFilter(event: Event) {
