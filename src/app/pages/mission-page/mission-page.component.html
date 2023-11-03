@@ -1,1 +1,79 @@
-<p>mission-page works!</p>
+<div class="container">
+    <div class="title">
+      <h2>Missions</h2>
+    </div>
+   
+  
+    <mat-card>
+      <mat-card-content class="filter">
+        <mat-form-field>
+          <mat-label>Filtrer</mat-label>
+          <input matInput (keyup)="applyFilter($event)" #input />
+        </mat-form-field>
+        <mat-radio-group
+          aria-label="Select an option"
+          [(ngModel)]="selectedFilter"
+          (change)="handleFilterChange($event)"
+        >
+          <mat-radio-button value="all">Tout</mat-radio-button>
+          <mat-radio-button value="EN_COURS">En cours</mat-radio-button>
+          <mat-radio-button value="ECHEC">Echec</mat-radio-button>
+          <mat-radio-button value="REUSSITE">Réussite</mat-radio-button>
+        </mat-radio-group>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="redirectToCreateMission()"
+        >
+            Créer une nouvelle mission
+    </button>
+      </mat-card-content>
+    </mat-card>
+    <div class="table">
+      <table mat-table matSort [dataSource]="dataSource">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>Nom de la mission</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.name }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="selectedPilots">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>Nombre de pilotes/th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.selectedPilotCount }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="type">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>Type</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.missionType }}
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="flightHours">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>Heures de vol</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.flightHours }}
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="status">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>Statut</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.missionStatus }}
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell information_if_no_data" colspan="4">No data</td>
+        </tr>
+      </table>
+      <mat-paginator
+        [pageSizeOptions]="[10, 25, 50, 100]"
+        aria-label="Select page of users"
+      ></mat-paginator>
+    </div>
+  </div>
+  

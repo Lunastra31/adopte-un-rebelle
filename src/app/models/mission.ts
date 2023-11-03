@@ -4,6 +4,7 @@ import { Pilot } from "./pilot";
 
 export interface Mission {
     name: string;
+    selectedPilotCount: number;
     missionType: MissionType;
     pilots: Pilot;
     flightHours: number;

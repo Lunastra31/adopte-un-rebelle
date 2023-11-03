@@ -1,1 +1,33 @@
-<p>create-mission-modal works!</p>
+<form [formGroup]="form" class="form">
+    <div class="dialog-container">
+      <h1 mat-dialog-title>Créer une nouvelle mission</h1>
+      <div mat-dialog-content class="form-container">
+        <mat-form-field appearance="fill">
+          <mat-label>Nom de la mission</mat-label>
+          <input matInput formControlName="name" />
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label></mat-label>
+            <mat-select disableRipple formControlName="missionType">
+              <mat-option [value]="missionType" *ngFor="let missionType of missionType">
+                {{ missionType }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Nombre de pilotes :</mat-label>
+            <input matInput type="number" name="pilotCount" [(ngModel)]="selectedPilotCount">
+          </mat-form-field>
+
+        <button
+          type="submit"
+          mat-raised-button
+          color="primary"
+          (click)="createMission()"
+        >
+          Créer la mission
+        </button>
+      </div>
+    </div>
+  </form>
+  

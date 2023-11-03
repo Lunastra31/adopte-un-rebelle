@@ -15,7 +15,7 @@ export class MissionService {
     return this.httpClient.get<Mission[]>(this.url + this.endPoint);
   }
 
-  public addMission(mission: Mission): Observable<Mission> {
+  public createMission(mission: Mission): Observable<Mission> {
     return this.httpClient.post<Mission>(this.url + this.endPoint, mission);
   }
 
