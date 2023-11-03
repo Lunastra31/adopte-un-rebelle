@@ -28,6 +28,8 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatRadioModule} from "@angular/material/radio";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { AddPilotsToMissionModalComponent } from './components/modals/add-pilots-to-mission-modal/add-pilots-to-mission-modal.component';
+import { EndMissionModalComponent } from './components/modals/end-mission-modal/end-mission-modal.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     HomePageComponent,
     PilotPageComponent,
     MissionPageComponent,
-    StarshipPageComponent
+    StarshipPageComponent,
+    AddPilotsToMissionModalComponent,
+    EndMissionModalComponent
   ],
   imports: [
     BrowserModule,
