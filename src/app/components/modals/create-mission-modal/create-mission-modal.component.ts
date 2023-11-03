@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MissionService } from 'src/app/services/mission.service';
 import { MissionType } from 'src/app/models/enums/mission-type';
+import { MissionStatus } from 'src/app/models/enums/mission-status';
 
 @Component({
   selector: 'app-create-mission-modal',
@@ -13,8 +14,8 @@ import { MissionType } from 'src/app/models/enums/mission-type';
 export class CreateMissionModalComponent implements OnInit {
 
   public form!: FormGroup;
-  protected missionType: any[] = Object.values(MissionType).filter(
-    (type) => typeof type !== 'number'
+  protected missionTypes: any[] = Object.values(MissionType).filter(
+    (value) => typeof value !== 'number'
   );
   public selectedPilotCount: any;
   public newMission!: any;
@@ -32,17 +33,15 @@ export class CreateMissionModalComponent implements OnInit {
   ngOnInit(): void {
     this.form = new FormGroup<any>({
       name: new FormControl(''),
-      surname: new FormControl(''),
-      pilotBreed: new FormControl('')
+      missionType: new FormControl(''),
     });
   }
 
   createMission() : void {
     this.newMission = {
       name: this.form.get("name")?.value,
-      missionType: this.form.get("missionType")?.value,
-      selectedPilotCount: this.form.get("pilotCount")?.value,
-      selectedPilot: this.form.get("pilots")?.value
+      missionTypes: this.form.get("missionType")?.value,
+      missionStatus: "EN_COURS"
     }
     console.log(this)
 

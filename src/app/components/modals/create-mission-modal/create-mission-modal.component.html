@@ -7,18 +7,13 @@
           <input matInput formControlName="name" />
         </mat-form-field>
         <mat-form-field>
-            <mat-label></mat-label>
+            <mat-label>Définir le type de mission</mat-label>
             <mat-select disableRipple formControlName="missionType">
-              <mat-option [value]="missionType" *ngFor="let missionType of missionType">
+              <mat-option [value]="missionType" *ngFor="let missionType of missionTypes">
                 {{ missionType }}
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field>
-            <mat-label>Nombre de pilotes :</mat-label>
-            <input matInput type="number" name="pilotCount" [(ngModel)]="selectedPilotCount">
-          </mat-form-field>
-
         <button
           type="submit"
           mat-raised-button

@@ -9,11 +9,7 @@
         <mat-label>Filtrer</mat-label>
         <input matInput (keyup)="applyFilter($event)" #input />
       </mat-form-field>
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="redirectToAddStarship()"
-      >
+      <button mat-raised-button color="primary" (click)="redirectToAddStarship()">
         Ajouter un vaisseau
       </button>
     </mat-card-content>
@@ -45,11 +41,7 @@
           Changer le statut du vaisseau
         </th>
         <td mat-cell *matCellDef="let element">
-          <button
-            mat-raised-button
-            color="primary"
-            (click)="changeStarshipStatut()"
-          >
+          <button mat-raised-button color="primary" (click)="changeStarshipStatut()">
             Changer statut
           </button>
         </td>
@@ -67,11 +59,7 @@
           Affecter un pilote
         </th>
         <td mat-cell *matCellDef="let element">
-          <button
-            mat-raised-button
-            color="primary"
-            (click)="redirectToAffectPilot()"
-          >
+          <button mat-raised-button color="primary" (click)="redirectToAffectPilot()">
             Affecter un pilote
           </button>
         </td>
@@ -83,11 +71,7 @@
         </th>
         <td mat-cell *matCellDef="let element">
 
-          <button
-            mat-raised-button
-            color="primary"
-            (click)="disuedPilot()"
-          >
+          <button mat-raised-button color="primary" (click)="disuedPilot()">
             Désaffecter un pilote
           </button>
         </td>
@@ -99,9 +83,6 @@
         <td class="mat-cell information_if_no_data" colspan="4">No data</td>
       </tr>
     </table>
-    <mat-paginator
-      [pageSizeOptions]="[10, 25, 50, 100]"
-      aria-label="Select page of users"
-    ></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Select page of users"></mat-paginator>
   </div>
 </div>

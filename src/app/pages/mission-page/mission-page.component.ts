@@ -25,7 +25,6 @@ export class MissionPageComponent implements OnInit {
 
   displayedColumns: string[] = [
     'name',
-    'selectedPilotCount',
     'missionType',
     'pilots',
     'flightHours',
