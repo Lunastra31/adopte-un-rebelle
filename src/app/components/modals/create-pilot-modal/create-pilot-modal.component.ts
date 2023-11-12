@@ -4,6 +4,9 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {PilotService} from "../../../services/pilot.service";
 import {PilotBreed} from "../../../models/enums/pilot-breed";
+import {Pilot} from "../../../models/pilot";
+import {PilotStatus} from "../../../models/enums/pilot-status";
+import {PilotRank} from "../../../models/enums/pilot-rank";
 
 @Component({
   selector: 'app-create-pilot-modal',
@@ -16,7 +19,7 @@ export class CreatePilotModalComponent implements OnInit {
   protected pilotBreeds: any[] = Object.values(PilotBreed).filter(
     (breed) => typeof breed !== 'number'
   );
-  public newPilot!: any;
+  public newPilot!: Pilot;
   public message!: string;
 
   constructor(
@@ -38,11 +41,20 @@ export class CreatePilotModalComponent implements OnInit {
 
   addPilot() : void {
     this.newPilot = {
+      id: null,
       name: this.form.get("name")?.value,
       surname: this.form.get("surname")?.value,
+      isTrainee: false,
       pilotBreed : this.form.get("pilotBreed")?.value,
-      pilotStatus: "DISPONIBLE",
-      pilotRank: "APPRENTI"
+      age: 18,
+      flightHours: 0,
+      endedMissionCount: 0,
+      pilotStatus: PilotStatus.DISPONIBLE,
+      pilotRank: PilotRank.APPRENTI,
+      starship: null,
+      mission : null,
+
+
     }
     console.log(this)
 

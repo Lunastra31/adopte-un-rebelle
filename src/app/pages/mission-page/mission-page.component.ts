@@ -5,7 +5,10 @@ import { MatRadioChange } from '@angular/material/radio';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { AddPilotsToMissionModalModel } from 'src/app/components/modals/add-pilots-to-mission-modal/add-pilots-to-mission-modal.component';
+import {
+  AddPilotsToMissionModalComponent,
+  AddPilotsToMissionModalModel
+} from 'src/app/components/modals/add-pilots-to-mission-modal/add-pilots-to-mission-modal.component';
 import {
   CreateMissionModalComponent,
   CreateMissionModalModel
@@ -20,7 +23,7 @@ import { MissionService } from 'src/app/services/mission.service';
 })
 export class MissionPageComponent implements OnInit {
 
-  mission!: Mission[]; // le point d'exclamation permet de dire je n'ai pas encore la valeur pilote mais c'est le résultat que j'attends pour cette variable
+  missions!: Mission[]; // le point d'exclamation permet de dire je n'ai pas encore la valeur pilote mais c'est le résultat que j'attends pour cette variable
   selectedFilter: string = 'all';
 
   displayedColumns: string[] = [
@@ -50,12 +53,12 @@ export class MissionPageComponent implements OnInit {
   getAllMissions(): void {
     this.missionService.getAllMissions().subscribe({
       next: (missions) => {
-        this.mission = missions;
-        this.filterMission()
-        this.dataSource = new MatTableDataSource<Mission>(this.mission);
+        this.missions = missions;
+        //this.filterMission()
+        this.dataSource = new MatTableDataSource<Mission>(this.missions);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.matSort;
-        console.log(this.mission);
+        console.log(this.missions);
       }
     })
   }
@@ -76,18 +79,18 @@ export class MissionPageComponent implements OnInit {
   }
 
   redirectToAddPilotsToMission(){
-    const dialogData = new AddPilotsToMissionModalModel('Ajouter des pilotes');
-    this.dialog
-    .open(CreateMissionModalComponent, {
-      maxWidth: '1000px',
-      data: dialogData,
-    })
-    .afterClosed()
-    .subscribe((res) => {
-      if (res === true) {
-        this.getAllMissions();
-      }
-    });
+    // const dialogData = new AddPilotsToMissionModalModel('Ajouter des pilotes');
+    // this.dialog
+    // .open(AddPilotsToMissionModalComponent, {
+    //   maxWidth: '1000px',
+    //   data: dialogData,
+    // })
+    // .afterClosed()
+    // .subscribe((res) => {
+    //   if (res === true) {
+    //     this.getAllMissions();
+    //   }
+    // });
   }
 
   redirectToEndMission() {
@@ -95,49 +98,42 @@ export class MissionPageComponent implements OnInit {
   }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-    this.filterMission(); // Appliquer le filtrage
+    // const filterValue = (event.target as HTMLInputElement).value;
+    // this.dataSource.filter = filterValue.trim().toLowerCase();
+    //
+    // if (this.dataSource.paginator) {
+    //   this.dataSource.paginator.firstPage();
+    // }
+    // this.filterMission(); // Appliquer le filtrage
   }
 
   handleFilterChange(event: MatRadioChange) {
-    this.selectedFilter = event.value;
-    console.log(this.selectedFilter);
-
-    this.getAllMissions(); // Appliquer le filtrage des matériaux
+    // this.selectedFilter = event.value;
+    // console.log(this.selectedFilter);
+    //
+    // this.getAllMissions(); // Appliquer le filtrage des matériaux
   }
 
   filterMission() {
-    if (this.selectedFilter === 'all') {
-      // Pas de filtrage, afficher tous
-      return;
-    }
-    if (this.selectedFilter === 'EN_COURS') {
-      this.mission = this.mission.filter(
-        (mission) => mission
-      );
-    }
-    if (this.selectedFilter === 'ECHEC') {
-      this.mission = this.mission.filter(
-        (mission) => mission
-      );
-    }
-    if (this.selectedFilter === 'REUSSITE') {
-      this.mission = this.mission.filter(
-        (mission) => mission
-      );
-    }
-    //   else {
-    //     Filtrer en fonction de la valeur sélectionnée
-
-    //     this.mission = this.mission.filter(
-    //       (mission) => mission.missionStatus === this.selectedFilter
-    //     );
-    //   }
+    // if (this.selectedFilter === 'all') {
+    //   // Pas de filtrage, afficher tous
+    //   return;
+    // }
+    // if (this.selectedFilter === 'EN_COURS') {
+    //   this.missions = this.missions.filter(
+    //     (mission) => mission
+    //   );
+    // }
+    // if (this.selectedFilter === 'ECHEC') {
+    //   this.missions = this.missions.filter(
+    //     (mission) => mission
+    //   );
+    // }
+    // if (this.selectedFilter === 'REUSSITE') {
+    //   this.missions = this.missions.filter(
+    //     (mission) => mission
+    //   );
+    // }
   }
 
 }

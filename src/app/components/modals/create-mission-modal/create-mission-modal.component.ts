@@ -1,10 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MissionService } from 'src/app/services/mission.service';
-import { MissionType } from 'src/app/models/enums/mission-type';
-import { MissionStatus } from 'src/app/models/enums/mission-status';
+import {Component, Inject, OnInit} from '@angular/core';
+import {FormControl, FormGroup} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {MissionService} from 'src/app/services/mission.service';
+import {MissionType} from 'src/app/models/enums/mission-type';
+import {MissionStatus} from 'src/app/models/enums/mission-status';
+import {Mission} from "../../../models/mission";
 
 @Component({
   selector: 'app-create-mission-modal',
@@ -17,7 +18,7 @@ export class CreateMissionModalComponent implements OnInit {
   protected missionTypes: any[] = Object.values(MissionType).filter(
     (value) => typeof value !== 'number'
   );
-  public newMission!: any;
+  public newMission!: Mission;
   public message!: string;
 
   constructor(
@@ -34,16 +35,17 @@ export class CreateMissionModalComponent implements OnInit {
       name: new FormControl(''),
       missionType: new FormControl(''),
     });
+    console.log(this.missionTypes)
   }
 
   createMission() : void {
     this.newMission = {
+      id: null,
       name: this.form.get("name")?.value,
-      selectPilotCount: 0,
-      missionTypes: this.form.get("missionType")?.value,
-      pilots: [],
+      missionType: this.form.get("missionType")?.value,
+      pilots: null,
       flightHours: 0,
-      missionStatus: "EN_COURS"
+      missionStatus: MissionStatus.EN_COURS
     }
     console.log(this)
 

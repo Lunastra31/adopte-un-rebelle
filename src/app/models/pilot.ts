@@ -5,13 +5,16 @@ import { Mission } from "./mission";
 import { Starship } from "./starship";
 
 export interface Pilot {
-    name:string;
-    surname:string;
+    id : number | null;
+    name: string;
+    surname: string;
+    isTrainee: boolean;
     pilotBreed:PilotBreed;
-    insDate: Date;
     age: number;
+    flightHours: number;
+    endedMissionCount: number;
     pilotStatus:PilotStatus;
     pilotRank:PilotRank;
-    starship:Starship;
-    mission:Mission;
+    starship:Starship | null;
+    mission:Mission | null;
 }

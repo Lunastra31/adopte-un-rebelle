@@ -3,11 +3,10 @@ import { MissionType } from "./enums/mission-type";
 import { Pilot } from "./pilot";
 
 export interface Mission {
-  id: number;
+    id : number | null;
     name: string;
-    selectPilotCount: number;
     missionType: MissionType;
-    pilots: Pilot[] | [];
+    pilots: Pilot[] | null;
     flightHours: number;
     missionStatus: MissionStatus;
 }
