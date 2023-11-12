@@ -36,7 +36,7 @@ export class CreatePilotModalComponent implements OnInit {
     });
   }
 
-  handleAddPilot() : void {
+  addPilot() : void {
     this.newPilot = {
       name: this.form.get("name")?.value,
       surname: this.form.get("surname")?.value,

@@ -19,6 +19,10 @@ export class PilotService {
     return this.httpClient.post<Pilot>(this.url + this.endPoint, pilot);
   }
 
+  public addPilotsToMission(pilots: Pilot[]): Observable<Pilot>{
+    return this.httpClient.put<Pilot>(this.url + this.endPoint);
+  }
+
   public deleteStarship(id: number) : Observable<Pilot> {
     return this.httpClient.delete<Pilot>(this.url + this.endPoint + id)
   }

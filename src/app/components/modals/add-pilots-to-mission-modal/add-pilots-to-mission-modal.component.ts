@@ -2,11 +2,10 @@ import { Component, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MissionType } from 'src/app/models/enums/mission-type';
 import { MissionService } from 'src/app/services/mission.service';
 import { CreateMissionModalComponent, CreateMissionModalModel } from '../create-mission-modal/create-mission-modal.component';
 import { PilotService } from 'src/app/services/pilot.service';
-import { PilotStatus } from 'src/app/models/enums/pilot-status';
+import { Pilot } from 'src/app/models/pilot';
 
 @Component({
   selector: 'app-add-pilots-to-mission-modal',
@@ -16,26 +15,27 @@ import { PilotStatus } from 'src/app/models/enums/pilot-status';
 export class AddPilotsToMissionModalComponent {
   public form!: FormGroup;
   public message!: string;
+selectedPilotCount: any;
+pilotCountArray: any;
+pilotNames: any;
   
-
   constructor(
     private snackBar: MatSnackBar,
     private missionService: MissionService,
+    private pilotService: PilotService,
     public dialogRef: MatDialogRef<CreateMissionModalComponent>, // les 2 lignes permettent de récupérer les valeurs de l'autre composants
     @Inject(MAT_DIALOG_DATA) public data: CreateMissionModalModel // data = Les informations que j'ai passé de mon autre composants vers la modal
   ) {
     this.message = data.message;
   }
+  pilotListControl = new FormControl('', [Validators.required, this.validatePilot.bind(this)]);
+  pilotList: string = '';
+  availablePilots: string[] = [];
 
   ngOnInit(): void {
-    this.form = new FormGroup<any>({
-      pilotListControl = new FormControl('', [Validators.required, this.validatePilot.bind(this)], getAllPilots().filter(PilotStatus=='DISPONIBLE'));
-      pilotList: string = '';
-      availablePilots: string[] = []
-    });
+    // Initialiser availablePilots ici si nécessaire
+    this.availablePilots = this.pilotService.getAllPilots().filter(pilot => pilot.status === 'DISPONIBLE');
   }
-  // Liste de pilotes existants (pour la validation)
-  availablePilots: string[]; /* Ajoutez les pilotes existants ici */
 
   saveMission(): void {
     if (this.pilotListControl.valid) {
@@ -43,6 +43,11 @@ export class AddPilotsToMissionModalComponent {
       // Vous pouvez accéder à la liste de pilotes via this.pilotList
       this.dialogRef.close();
     }
+  }
+
+  addPilotsToMission(selectedPilots: Pilot[]): void {
+    // Logique pour récupérer les pilotes sélectionnés (peut-être à partir d'une liste dans votre composant)
+    this.pilotService.addPilotsToMission(selectedPilots);
   }
 
   validatePilot(control: FormControl): { [key: string]: boolean } | null {
@@ -57,3 +62,4 @@ export class AddPilotsToMissionModalModel {
 }
 
 }
+
