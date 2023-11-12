@@ -37,9 +37,11 @@ export class CreateStarshipModalComponent implements OnInit {
 
   handleAddStarship() : void {
     this.newStarship = {
+      id: null,
       name: this.form.get("name")?.value,
       starshipType : this.form.get("starshipType")?.value,
-      starshipStatus: "DISPONIBLE"
+      starshipStatus: "DISPONIBLE",
+      pilot: null,
     }
     console.log(this)
 

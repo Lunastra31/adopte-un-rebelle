@@ -15,6 +15,6 @@ export interface Pilot {
     endedMissionCount: number;
     pilotStatus:PilotStatus;
     pilotRank:PilotRank;
-    starship:Starship | null;
+    hasStarship: Boolean;
     mission:Mission | null;
 }

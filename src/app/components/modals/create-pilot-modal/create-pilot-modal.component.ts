@@ -51,7 +51,7 @@ export class CreatePilotModalComponent implements OnInit {
       endedMissionCount: 0,
       pilotStatus: PilotStatus.DISPONIBLE,
       pilotRank: PilotRank.APPRENTI,
-      starship: null,
+      hasStarship: false,
       mission : null,
 
 

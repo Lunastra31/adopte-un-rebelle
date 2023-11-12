@@ -10,7 +10,13 @@ import {
   CreateStarshipModalComponent,
   CreateStarshipModalModel
 } from "../../components/modals/create-starship-modal/create-starship-modal.component";
-import {error} from "@angular/compiler-cli/src/transformers/util";
+import {
+  AffectPilotToStarshipModalComponent,
+  AffectPilotToStarshipModalModel
+} from "../../components/modals/affect-pilot-to-starship-modal/affect-pilot-to-starship-modal.component";
+import {Pilot} from "../../models/pilot";
+import {PilotService} from "../../services/pilot.service";
+import {PilotStatus} from "../../models/enums/pilot-status";
 
 @Component({
   selector: 'app-starship-page',
@@ -20,6 +26,7 @@ import {error} from "@angular/compiler-cli/src/transformers/util";
 export class StarshipPageComponent implements OnInit {
 
   starships!: Starship[];
+  PilotsAvailableWithoutStarship! : Pilot[]
 
   displayedColumns: string[] = [
     'name',
@@ -38,13 +45,27 @@ export class StarshipPageComponent implements OnInit {
 
   constructor(
     private starshipService: StarshipService,
+    private pilotService: PilotService,
     private dialog: MatDialog,
     public snackBar: MatSnackBar
   ) {
   }
 
   ngOnInit(): void {
-    this.getAllStarships()
+    this.getAllStarships();
+    this.getPilotsWithoutStarship();
+  }
+
+  getPilotsWithoutStarship(): void {
+    this.pilotService.getAllPilots().subscribe({
+      next: (pilots: Pilot[]) => {
+        console.log(pilots);
+        this.PilotsAvailableWithoutStarship = pilots.filter(pilot => {
+          return pilot.pilotStatus.toString(0) === "DISPONIBLE" && !pilot.hasStarship;
+        });
+        console.log(this.PilotsAvailableWithoutStarship);
+      }
+    });
   }
 
   getAllStarships(): void {
@@ -61,6 +82,7 @@ export class StarshipPageComponent implements OnInit {
 
   redirectToAddStarship(): void {
     const dialogData = new CreateStarshipModalModel("Création d'un nouveau vaisseau");
+    this.getPilotsWithoutStarship();
     this.dialog
       .open(CreateStarshipModalComponent, {
         maxWidth: '1000px',
@@ -87,10 +109,10 @@ export class StarshipPageComponent implements OnInit {
 
   }
 
-  redirectToAffectPilot(): void {
-    const dialogData = new CreateStarshipModalModel("Création d'un nouveau vaisseau");
+  redirectToAffectPilot(starship: Starship): void {
+    const dialogData = new AffectPilotToStarshipModalModel("Affecter un pilote au vaisseau", starship, this.PilotsAvailableWithoutStarship);
     this.dialog
-      .open(CreateStarshipModalComponent, {
+      .open(AffectPilotToStarshipModalComponent, {
         maxWidth: '1000px',
         data: dialogData,
       })

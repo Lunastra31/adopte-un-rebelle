@@ -1,0 +1,24 @@
+<form [formGroup]="form" class="form">
+  <div class="dialog-container">
+    <h1 mat-dialog-title>{{message}}</h1>
+    <div mat-dialog-content class="form-container">
+      <mat-form-field>
+        <mat-label>Choisir un pilote</mat-label>
+        <mat-select disableRipple formControlName="pilot">
+          <mat-option [value]="pilot" *ngFor="let pilot of pilotsAvailableWithoutAStarship">
+            {{ pilot.name + " " + pilot.surname }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button
+        type="submit"
+        mat-raised-button
+        color="primary"
+        (click)="handleAffectAPilotToStarship()"
+      >
+        Ajouter
+      </button>
+    </div>
+  </div>
+</form>
+
