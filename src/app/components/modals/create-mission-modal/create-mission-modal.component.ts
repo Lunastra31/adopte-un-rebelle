@@ -17,7 +17,6 @@ export class CreateMissionModalComponent implements OnInit {
   protected missionTypes: any[] = Object.values(MissionType).filter(
     (value) => typeof value !== 'number'
   );
-  public selectedPilotCount: any;
   public newMission!: any;
   public message!: string;
 
@@ -40,7 +39,10 @@ export class CreateMissionModalComponent implements OnInit {
   createMission() : void {
     this.newMission = {
       name: this.form.get("name")?.value,
+      selectPilotCount: 0,
       missionTypes: this.form.get("missionType")?.value,
+      pilots: [],
+      flightHours: 0,
       missionStatus: "EN_COURS"
     }
     console.log(this)

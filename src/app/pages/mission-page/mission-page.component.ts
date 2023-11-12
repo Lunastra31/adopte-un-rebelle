@@ -21,7 +21,6 @@ import { MissionService } from 'src/app/services/mission.service';
 export class MissionPageComponent implements OnInit {
 
   mission!: Mission[]; // le point d'exclamation permet de dire je n'ai pas encore la valeur pilote mais c'est le résultat que j'attends pour cette variable
-  flightHours: number = 0;
   selectedFilter: string = 'all';
 
   displayedColumns: string[] = [
@@ -29,10 +28,12 @@ export class MissionPageComponent implements OnInit {
     'missionType',
     'pilots',
     'flightHours',
-    'missionStatus'
+    'missionStatus',
+    'addPilotsToMission',
+    'endMission'
   ];
 
-  dataSource!: any;
+  dataSource: any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) matSort!: MatSort;
@@ -48,8 +49,8 @@ export class MissionPageComponent implements OnInit {
   }
   getAllMissions(): void {
     this.missionService.getAllMissions().subscribe({
-      next: (mission) => {
-        this.mission = mission;
+      next: (missions) => {
+        this.mission = missions;
         this.filterMission()
         this.dataSource = new MatTableDataSource<Mission>(this.mission);
         this.dataSource.paginator = this.paginator;
@@ -74,7 +75,7 @@ export class MissionPageComponent implements OnInit {
       });
   }
 
-  selectPilot(){
+  redirectToAddPilotsToMission(){
     const dialogData = new AddPilotsToMissionModalModel('Ajouter des pilotes');
     this.dialog
     .open(CreateMissionModalComponent, {
@@ -87,6 +88,10 @@ export class MissionPageComponent implements OnInit {
         this.getAllMissions();
       }
     });
+  }
+
+  redirectToEndMission() {
+
   }
 
   applyFilter(event: Event) {

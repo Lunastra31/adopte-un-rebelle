@@ -40,7 +40,11 @@
       <ng-container matColumnDef="pilots">
         <th mat-header-cell mat-sort-header *matHeaderCellDef>Pilotes</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.pilots }}
+          <ul>
+            <li *ngFor="let pilot of element.pilots">
+              {{ pilot.name }}
+            </li>
+          </ul>
         </td>
       </ng-container>
 
@@ -58,12 +62,21 @@
         </td>
       </ng-container>
 
-      <ng-container>
-        <th mat-header-cell mat-sort-header *matHeaderCellDef></th>
+      <ng-container matColumnDef="addPilotsToMission">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Ajouter des pilotes</th>
         <td mat-cell>
-        <button mat-raised-button color="primary" (click)="selectPilot()">
+        <button mat-raised-button color="primary" (click)="redirectToAddPilotsToMission()">
           Ajouter des pilotes
         </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="endMission">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>Terminer mission</th>
+        <td mat-cell>
+          <button mat-raised-button color="primary" (click)="redirectToEndMission()">
+            Terminer mission
+          </button>
         </td>
       </ng-container>
 

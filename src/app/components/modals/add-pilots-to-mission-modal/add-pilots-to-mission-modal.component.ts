@@ -15,10 +15,10 @@ import { Pilot } from 'src/app/models/pilot';
 export class AddPilotsToMissionModalComponent {
   public form!: FormGroup;
   public message!: string;
-selectedPilotCount: any;
-pilotCountArray: any;
-pilotNames: any;
-  
+  selectedPilotCount: any;
+  pilotCountArray: any;
+  pilotNames: any;
+
   constructor(
     private snackBar: MatSnackBar,
     private missionService: MissionService,
@@ -28,13 +28,14 @@ pilotNames: any;
   ) {
     this.message = data.message;
   }
+
   pilotListControl = new FormControl('', [Validators.required, this.validatePilot.bind(this)]);
   pilotList: string = '';
   availablePilots: string[] = [];
 
   ngOnInit(): void {
     // Initialiser availablePilots ici si nécessaire
-    this.availablePilots = this.pilotService.getAllPilots().filter(pilot => pilot.status === 'DISPONIBLE');
+    // this.availablePilots = this.pilotService.getAllPilots().filter(pilot => pilot.status === 'DISPONIBLE');
   }
 
   saveMission(): void {
@@ -46,20 +47,18 @@ pilotNames: any;
   }
 
   addPilotsToMission(selectedPilots: Pilot[]): void {
-    // Logique pour récupérer les pilotes sélectionnés (peut-être à partir d'une liste dans votre composant)
-    this.pilotService.addPilotsToMission(selectedPilots);
   }
 
   validatePilot(control: FormControl): { [key: string]: boolean } | null {
     const pilotName = control.value;
     if (this.availablePilots.indexOf(pilotName) === -1) {
-      return { 'invalidPilot': true };
+      return {'invalidPilot': true};
     }
     return null;
   }
+}
 export class AddPilotsToMissionModalModel {
   constructor(public message: string) { }
 }
 
-}
 

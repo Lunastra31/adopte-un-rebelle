@@ -1,20 +1,19 @@
 <div class="modal">
     <h2>Créer une mission - Ajout des pilots</h2>
-    <form (submit)="addPilotsToMission()">
       <!-- Autres champs pour la mission -->
-  
+  <form>
       <mat-form-field>
         <mat-label>Nombre de pilotes :</mat-label>
         <input matInput type="number" name="pilotCount" [(ngModel)]="selectedPilotCount">
       </mat-form-field>
-  
+
       <div *ngFor="let index of pilotCountArray">
         <mat-form-field>
           <mat-label>Nom du pilote {{ index + 1 }} :</mat-label>
           <input matInput name="pilotName" [(ngModel)]="pilotNames[index]">
         </mat-form-field>
       </div>
-  
+
       <button mat-raised-button type="submit">Ajouter des pilotes</button>
     </form>
   </div>
