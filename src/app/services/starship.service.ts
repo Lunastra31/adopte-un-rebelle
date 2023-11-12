@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, Observable, throwError} from "rxjs";
 import {Starship} from "../models/starship";
+import {Pilot} from "../models/pilot";
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,11 @@ import {Starship} from "../models/starship";
 export class StarshipService {
   private url: string = "http://localhost:8080/";
   private endPoint: string = "starship/";
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    }),
+  };
   constructor(private httpClient : HttpClient) { }
 
     public getAllStarship() : Observable<Starship[]> {
@@ -23,5 +29,19 @@ export class StarshipService {
     return this.httpClient.delete<Starship>(this.url + this.endPoint + id)
     }
 
+    public affectPilot(pilot: Pilot, starshipId:number) : Observable<Starship> {
+      return this.httpClient.put<Starship>(this.url + this.endPoint + "affect/" + starshipId, JSON.stringify(pilot), this.httpOptions).pipe(
+        catchError((err) => {
+          return throwError(() => new Error(err));
+        })
+      )
+    }
 
+    public desaffectPilot(starshipId:number) : Observable<Starship> {
+        return this.httpClient.put<Starship>(this.url + this.endPoint + "desaffect/" + starshipId, {}, this.httpOptions).pipe(
+          catchError((err) => {
+            return throwError(() => new Error(err));
+          })
+        )
+    }
 }

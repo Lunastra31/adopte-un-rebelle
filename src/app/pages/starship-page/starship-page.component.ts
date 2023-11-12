@@ -10,6 +10,7 @@ import {
   CreateStarshipModalComponent,
   CreateStarshipModalModel
 } from "../../components/modals/create-starship-modal/create-starship-modal.component";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-starship-page',
@@ -18,7 +19,7 @@ import {
 })
 export class StarshipPageComponent implements OnInit {
 
-  starships! : Starship[];
+  starships!: Starship[];
 
   displayedColumns: string[] = [
     'name',
@@ -39,13 +40,14 @@ export class StarshipPageComponent implements OnInit {
     private starshipService: StarshipService,
     private dialog: MatDialog,
     public snackBar: MatSnackBar
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.getAllStarships()
   }
 
-  getAllStarships() : void {
+  getAllStarships(): void {
     this.starshipService.getAllStarship().subscribe({
       next: (starships) => {
         this.starships = starships;
@@ -57,7 +59,7 @@ export class StarshipPageComponent implements OnInit {
     })
   }
 
-  redirectToAddStarship() : void {
+  redirectToAddStarship(): void {
     const dialogData = new CreateStarshipModalModel("Création d'un nouveau vaisseau");
     this.dialog
       .open(CreateStarshipModalComponent, {
@@ -72,7 +74,7 @@ export class StarshipPageComponent implements OnInit {
       });
   }
 
-  applyFilter(event: Event) : void {
+  applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
@@ -81,15 +83,48 @@ export class StarshipPageComponent implements OnInit {
     }
   }
 
-  changeStarshipStatut() : void {
+  changeStarshipStatut(): void {
 
   }
 
-  redirectToAffectPilot() : void {
-
+  redirectToAffectPilot(): void {
+    const dialogData = new CreateStarshipModalModel("Création d'un nouveau vaisseau");
+    this.dialog
+      .open(CreateStarshipModalComponent, {
+        maxWidth: '1000px',
+        data: dialogData,
+      })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res === true) {
+          this.getAllStarships();
+        }
+      });
   }
 
-  disuedPilot() : void {
+  desaffectPilot(starship: Starship): void {
+    if (starship.id != null) {
+      this.starshipService.desaffectPilot(starship.id).subscribe({
+          next: (starship: Starship) => {
+            this.getAllStarships();
+            this.snackBar.open('Le pilote a bien été dessafecté de' + starship.name, "", {
+              duration: 2000,
+              verticalPosition: "top",
+              horizontalPosition: "center"
+            })
+          },
+          error: (error: any) => {
+            this.snackBar.open(
+              "Une erreur s'est produite lors de la desafectation du pilote" + error, '', {
+                duration: 2000,
+                verticalPosition: "top",
+                horizontalPosition: "center"
+              }
+            )
+          }
+        }
+      )
+    }
 
   }
 }

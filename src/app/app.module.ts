@@ -30,6 +30,7 @@ import {MatRadioModule} from "@angular/material/radio";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { AddPilotsToMissionModalComponent } from './components/modals/add-pilots-to-mission-modal/add-pilots-to-mission-modal.component';
 import { EndMissionModalComponent } from './components/modals/end-mission-modal/end-mission-modal.component';
+import { AffectPilotToStarshipModalComponent } from './components/modals/affect-pilot-to-starship-modal/affect-pilot-to-starship-modal.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { EndMissionModalComponent } from './components/modals/end-mission-modal/
     MissionPageComponent,
     StarshipPageComponent,
     AddPilotsToMissionModalComponent,
-    EndMissionModalComponent
+    EndMissionModalComponent,
+    AffectPilotToStarshipModalComponent
   ],
   imports: [
     BrowserModule,
