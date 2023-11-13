@@ -1,19 +1,21 @@
-<div class="modal">
-    <h2>Créer une mission - Ajout des pilots</h2>
-      <!-- Autres champs pour la mission -->
-  <form>
-      <mat-form-field>
-        <mat-label>Nombre de pilotes :</mat-label>
-        <input matInput type="number" name="pilotCount" [(ngModel)]="selectedPilotCount">
-      </mat-form-field>
-
-      <div *ngFor="let index of pilotCountArray">
-        <mat-form-field>
-          <mat-label>Nom du pilote {{ index + 1 }} :</mat-label>
-          <input matInput name="pilotName" [(ngModel)]="pilotNames[index]">
-        </mat-form-field>
-      </div>
-
-      <button mat-raised-button type="submit">Ajouter des pilotes</button>
-    </form>
+<form [formGroup]="form" class="form">
+  <div class="dialog-container">
+    <h1 mat-dialog-title>{{message}} + {{missionToStrengthen.name}}</h1>
+    <div mat-dialog-content class="form-container">
+      <mat-form-field appearance="fill">
+      <mat-label>Toppings</mat-label>
+      <mat-select [formControl]="pilots" multiple>
+        <mat-option *ngFor="let pilot of pilotsAvailableWithAStarship" [value]="pilot">{{pilot.name + " " + pilot.surname}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+      <button
+        type="submit"
+        mat-raised-button
+        color="primary"
+        (click)="handleAddPilotsToMission()"
+      >
+        Ajouter
+      </button>
+    </div>
   </div>
+</form>

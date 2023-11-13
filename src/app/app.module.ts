@@ -46,7 +46,7 @@ import { AffectPilotToStarshipModalComponent } from './components/modals/affect-
     StarshipPageComponent,
     AddPilotsToMissionModalComponent,
     EndMissionModalComponent,
-    AffectPilotToStarshipModalComponent
+    AffectPilotToStarshipModalComponent,
   ],
   imports: [
     BrowserModule,

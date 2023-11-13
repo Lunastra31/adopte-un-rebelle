@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatRadioChange } from '@angular/material/radio';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatRadioChange} from '@angular/material/radio';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
 import {
   AddPilotsToMissionModalComponent,
   AddPilotsToMissionModalModel
@@ -13,8 +13,10 @@ import {
   CreateMissionModalComponent,
   CreateMissionModalModel
 } from 'src/app/components/modals/create-mission-modal/create-mission-modal.component';
-import { Mission } from 'src/app/models/mission';
-import { MissionService } from 'src/app/services/mission.service';
+import {Mission} from 'src/app/models/mission';
+import {MissionService} from 'src/app/services/mission.service';
+import {Pilot} from "../../models/pilot";
+import {PilotService} from "../../services/pilot.service";
 
 @Component({
   selector: 'app-mission-page',
@@ -25,6 +27,7 @@ export class MissionPageComponent implements OnInit {
 
   missions!: Mission[]; // le point d'exclamation permet de dire je n'ai pas encore la valeur pilote mais c'est le résultat que j'attends pour cette variable
   selectedFilter: string = 'all';
+  pilotsAvailableWithStarship! : Pilot[]
 
   displayedColumns: string[] = [
     'name',
@@ -43,13 +46,17 @@ export class MissionPageComponent implements OnInit {
 
   constructor(
     private missionService: MissionService,
+    private pilotService : PilotService,
     private dialog: MatDialog,
     public snackBar: MatSnackBar
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
-    this.getAllMissions()
+    this.getAllMissions();
+    this.getPilotsAvailableWithStarship();
   }
+
   getAllMissions(): void {
     this.missionService.getAllMissions().subscribe({
       next: (missions) => {
@@ -61,6 +68,17 @@ export class MissionPageComponent implements OnInit {
         console.log(this.missions);
       }
     })
+  }
+
+  getPilotsAvailableWithStarship(): void {
+    this.pilotService.getAllPilots().subscribe({
+      next: (pilots: Pilot[]) => {
+        console.log(pilots);
+        this.pilotsAvailableWithStarship = pilots.filter(pilot => {
+          return pilot.pilotStatus.toString(0) === "DISPONIBLE" && pilot.hasStarship;
+        });
+      }
+    });
   }
 
   redirectToCreateMission() {
@@ -78,19 +96,20 @@ export class MissionPageComponent implements OnInit {
       });
   }
 
-  redirectToAddPilotsToMission(){
-    // const dialogData = new AddPilotsToMissionModalModel('Ajouter des pilotes');
-    // this.dialog
-    // .open(AddPilotsToMissionModalComponent, {
-    //   maxWidth: '1000px',
-    //   data: dialogData,
-    // })
-    // .afterClosed()
-    // .subscribe((res) => {
-    //   if (res === true) {
-    //     this.getAllMissions();
-    //   }
-    // });
+  redirectToAddPilotsToMission(mission : Mission) {
+    this.getPilotsAvailableWithStarship()
+    console.log(this.pilotsAvailableWithStarship)
+    const dialogData = new AddPilotsToMissionModalModel('Ajouter des pilotes à la mission', mission, this.pilotsAvailableWithStarship);
+    this.dialog.open(AddPilotsToMissionModalComponent, {
+      maxWidth: '1000px',
+      data: dialogData,
+    })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res === true) {
+          this.getAllMissions();
+        }
+      });
   }
 
   redirectToEndMission() {
