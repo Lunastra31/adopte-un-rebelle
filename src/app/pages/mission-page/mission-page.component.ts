@@ -17,6 +17,9 @@ import {Mission} from 'src/app/models/mission';
 import {MissionService} from 'src/app/services/mission.service';
 import {Pilot} from "../../models/pilot";
 import {PilotService} from "../../services/pilot.service";
+import { PilotStatus } from 'src/app/models/enums/pilot-status';
+import { MissionType } from 'src/app/models/enums/mission-type';
+import { EndMissionModalComponent, EndMissionModalModel } from 'src/app/components/modals/end-mission-modal/end-mission-modal.component';
 
 @Component({
   selector: 'app-mission-page',
@@ -28,6 +31,7 @@ export class MissionPageComponent implements OnInit {
   missions!: Mission[]; // le point d'exclamation permet de dire je n'ai pas encore la valeur pilote mais c'est le résultat que j'attends pour cette variable
   selectedFilter: string = 'all';
   pilotsAvailableWithStarship! : Pilot[]
+
 
   displayedColumns: string[] = [
     'name',
@@ -70,6 +74,24 @@ export class MissionPageComponent implements OnInit {
     })
   }
 
+  getPilotsAvailableWithStarshipBeforeModal(missionType: MissionType): void {
+    this.pilotService.getAllPilots().subscribe({
+      next: (pilots: Pilot[]) => {
+        console.log(pilots);
+  
+        if (missionType.toString(0) === 'COMBAT') {
+          this.pilotsAvailableWithStarship = pilots.filter(pilot => {
+            return pilot.pilotStatus.toString(0) === "DISPONIBLE" && pilot.hasStarship && !pilot.isTrainee;
+          });
+        } else if (missionType.toString(1) === 'ENTRAINEMENT') {
+          this.pilotsAvailableWithStarship = pilots.filter(pilot => {
+            return pilot.pilotStatus.toString(1) === "DISPONIBLE" && pilot.hasStarship;
+          });
+        }
+      }
+    });
+  }
+
   getPilotsAvailableWithStarship(): void {
     this.pilotService.getAllPilots().subscribe({
       next: (pilots: Pilot[]) => {
@@ -82,6 +104,7 @@ export class MissionPageComponent implements OnInit {
   }
 
   redirectToCreateMission() {
+    this.getPilotsAvailableWithStarship()
     const dialogData = new CreateMissionModalModel('Créer une nouvelle mission');
     this.dialog
       .open(CreateMissionModalComponent, {
@@ -112,9 +135,21 @@ export class MissionPageComponent implements OnInit {
       });
   }
 
-  redirectToEndMission() {
+  redirectToEndMission(mission : Mission) {
 
-  }
+    const dialogData = new EndMissionModalModel('Terminer la mission', mission);
+    this.dialog
+      .open(EndMissionModalComponent, {
+        maxWidth: '1000px',
+        data: dialogData,
+      })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res === true) {
+          this.getAllMissions();
+        }
+  });
+}
 
   applyFilter(event: Event) {
     // const filterValue = (event.target as HTMLInputElement).value;

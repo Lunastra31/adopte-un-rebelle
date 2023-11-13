@@ -1,1 +1,28 @@
-<p>end-mission-modal works!</p>
+<form [formGroup]="form" class="form">
+    <div class="dialog-container">
+      <h1 mat-dialog-title>Terminer la mission</h1>
+      <div mat-dialog-content class="form-container">
+        <mat-form-field appearance="fill">
+          <mat-label>Heures de vol</mat-label>
+          <input matInput formControlName="flightHours" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Status de la mission</mat-label>
+          <mat-select disableRipple formControlName="missionStatus">
+            <mat-option [value]="missionStatus" *ngFor="let missionStatus of filterMissionStatus">
+              {{ missionStatus}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button
+          type="submit"
+          mat-raised-button
+          color="primary"
+          (click)="endMission()"
+        >
+          Terminer la mission
+        </button>
+      </div>
+    </div>
+  </form>
+  

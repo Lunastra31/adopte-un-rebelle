@@ -37,4 +37,9 @@ export class MissionService {
   public deleteMission(id: number) : Observable<Mission> {
     return this.httpClient.delete<Mission>(this.url + this.endPoint + id)
   }
+
+  public endMission(mission: Mission): Observable<Mission> {
+    return this.httpClient.post<Mission>(this.url + this.endPoint, mission);
+  }
+
 }
