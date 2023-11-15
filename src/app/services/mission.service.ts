@@ -38,8 +38,12 @@ export class MissionService {
     return this.httpClient.delete<Mission>(this.url + this.endPoint + id)
   }
 
-  public endMission(mission: Mission): Observable<Mission> {
-    return this.httpClient.post<Mission>(this.url + this.endPoint, mission);
+  public endMission(mission : Mission) : Observable<Mission> {
+    return this.httpClient.put<Mission>(this.url + this.endPoint + JSON.stringify(mission), this.httpOptions).pipe(
+      catchError((err) => {
+        return throwError(() => new Error(err));
+      })
+    )
   }
 
 }

@@ -31,6 +31,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { AddPilotsToMissionModalComponent } from './components/modals/add-pilots-to-mission-modal/add-pilots-to-mission-modal.component';
 import { EndMissionModalComponent } from './components/modals/end-mission-modal/end-mission-modal.component';
 import { AffectPilotToStarshipModalComponent } from './components/modals/affect-pilot-to-starship-modal/affect-pilot-to-starship-modal.component';
+import { ChangestarshipstatusmodalComponent } from './components/modals/changestarshipstatusmodal/changestarshipstatusmodal.component';
+import { ChangepilotstatusmodalComponent } from './components/modals/changepilotstatusmodal/changepilotstatusmodal.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { AffectPilotToStarshipModalComponent } from './components/modals/affect-
     AddPilotsToMissionModalComponent,
     EndMissionModalComponent,
     AffectPilotToStarshipModalComponent,
+    ChangestarshipstatusmodalComponent,
+    ChangepilotstatusmodalComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,24 @@
+<form [formGroup]="form" class="form">
+    <div class="dialog-container">
+      <h1 mat-dialog-title>Changer le statut</h1>
+      <div mat-dialog-content class="form-container">
+        <mat-form-field appearance="fill">
+        <mat-label>Statut</mat-label>
+        <mat-select disableRipple formControlName="pilotStatus">
+            <mat-option [value]="pilotStatus" *ngFor="let pilotStatus of pilotStatus">
+                {{ pilotStatus }}
+              </mat-option>        
+        </mat-select>
+      </mat-form-field>
+        <button
+          type="submit"
+          mat-raised-button
+          color="primary"
+          (click)="changePilotStatus()"
+        >
+          Valider
+        </button>
+      </div>
+    </div>
+  </form>
+  

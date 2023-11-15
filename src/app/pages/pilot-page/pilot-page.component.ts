@@ -97,11 +97,11 @@ export class PilotPageComponent implements OnInit {
       // Pas de filtrage, afficher tous
       return;
     }
-    // if (this.selectedFilter === 'APPRENTI') {
-    //   this.pilots = this.pilots.filter(
-    //     (pilot) => pilot//.inFormation === true
-    //   );
-    // }
+    if (this.selectedFilter === 'APPRENTI') {
+      this.pilots = this.pilots.filter(
+        (pilot) => pilot.isTrainee === true
+       );
+     }
     else {
       //Filtrer en fonction de la valeur sélectionnée
 

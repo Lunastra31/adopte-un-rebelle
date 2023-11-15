@@ -44,34 +44,36 @@ export class CreatePilotModalComponent implements OnInit {
       id: null,
       name: this.form.get("name")?.value,
       surname: this.form.get("surname")?.value,
-      isTrainee: false,
+      isTrainee: true,
       pilotBreed : this.form.get("pilotBreed")?.value,
-      age: 18,
+      age: this.form.get("age")?.value,
       flightHours: 0,
       endedMissionCount: 0,
       pilotStatus: PilotStatus.DISPONIBLE,
       pilotRank: PilotRank.APPRENTI,
       hasStarship: false,
       mission : null,
-
-
     }
     console.log(this)
-
-    this.pilotService.addPilot(this.newPilot).subscribe({
-      next: (pilot) => {
-        this.snackBar.open(pilot.name + "a bien été créer", "", {
-          duration: 2000,
-          verticalPosition: "top",
-          horizontalPosition: "center",
-        });
-        this.dialogRef.close(true);
-      },
-      error: (err) => {
-        console.error(err.error.detail);
-      }
-    })
-  }
+    if (this.newPilot.age > 10 && this.newPilot.age < 800) {
+      this.pilotService.addPilot(this.newPilot).subscribe({
+        next: (pilot) => {
+          this.snackBar.open(pilot.name + " a bien rejoint l'Alliance", "", {
+            duration: 2000,
+            verticalPosition: "top",
+            horizontalPosition: "center",
+          });
+          this.dialogRef.close(true);
+        },
+        error: (err) => {
+          console.error(err.error.detail);
+        },
+      });
+    } else {
+      // Gère le cas où l'âge n'est pas dans la plage valide
+      console.error("L'âge du pilote n'est pas dans la plage valide.");
+    }
+}
 }
 export class CreatePilotModalModel {
   constructor(public message: string) {}
