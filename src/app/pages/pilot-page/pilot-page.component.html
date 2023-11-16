@@ -20,11 +20,7 @@
         <mat-radio-button value="BLESSE">Blessés</mat-radio-button>
         <mat-radio-button value="DECEDE">Décédés</mat-radio-button>
       </mat-radio-group>
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="redirectToAddPilot()"
-      >
+      <button mat-raised-button color="primary" (click)="redirectToAddPilot()">
         Ajouter un pilote
       </button>
     </mat-card-content>
@@ -55,6 +51,21 @@
         <th mat-header-cell mat-sort-header *matHeaderCellDef>Statut</th>
         <td mat-cell *matCellDef="let element">
           {{ element.pilotStatus }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="changePilotState">
+        <th mat-header-cell [ngClass]="'importantField'" *matHeaderCellDef>
+          Changer l'état d'un pilote
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="redirectToChangePilotStatus(element)"
+          >
+            Changer l'état du pilote
+          </button>
         </td>
       </ng-container>
 

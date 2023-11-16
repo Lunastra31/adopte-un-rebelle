@@ -1,20 +1,20 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {PilotService} from "../../../services/pilot.service";
-import {PilotBreed} from "../../../models/enums/pilot-breed";
-import {Pilot} from "../../../models/pilot";
-import {PilotStatus} from "../../../models/enums/pilot-status";
-import {PilotRank} from "../../../models/enums/pilot-rank";
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { PilotService } from '../../../services/pilot.service';
+import { PilotBreed } from '../../../models/enums/pilot-breed';
+import { Pilot } from '../../../models/pilot';
+import { PilotStatus } from '../../../models/enums/pilot-status';
+import { PilotRank } from '../../../models/enums/pilot-rank';
+import { min } from 'rxjs';
 
 @Component({
   selector: 'app-create-pilot-modal',
   templateUrl: './create-pilot-modal.component.html',
-  styleUrls: ['./create-pilot-modal.component.scss']
+  styleUrls: ['./create-pilot-modal.component.scss'],
 })
 export class CreatePilotModalComponent implements OnInit {
-
   public form!: FormGroup;
   protected pilotBreeds: any[] = Object.values(PilotBreed).filter(
     (breed) => typeof breed !== 'number'
@@ -35,33 +35,37 @@ export class CreatePilotModalComponent implements OnInit {
     this.form = new FormGroup<any>({
       name: new FormControl(''),
       surname: new FormControl(''),
-      pilotBreed: new FormControl('')
+      pilotBreed: new FormControl(''),
+      age: new FormControl(
+        '',
+        Validators.compose([Validators.min(10), Validators.max(800)])
+      ),
     });
   }
 
-  addPilot() : void {
+  addPilot(): void {
     this.newPilot = {
       id: null,
-      name: this.form.get("name")?.value,
-      surname: this.form.get("surname")?.value,
-      isTrainee: true,
-      pilotBreed : this.form.get("pilotBreed")?.value,
-      age: this.form.get("age")?.value,
+      name: this.form.get('name')?.value,
+      surname: this.form.get('surname')?.value,
+      trainee: true,
+      pilotBreed: this.form.get('pilotBreed')?.value,
+      age: this.form.get('age')?.value,
       flightHours: 0,
       endedMissionCount: 0,
       pilotStatus: PilotStatus.DISPONIBLE,
       pilotRank: PilotRank.APPRENTI,
       hasStarship: false,
-      mission : null,
-    }
-    console.log(this)
+      mission: null,
+    };
+    console.log(this.newPilot);
     if (this.newPilot.age > 10 && this.newPilot.age < 800) {
       this.pilotService.addPilot(this.newPilot).subscribe({
         next: (pilot) => {
-          this.snackBar.open(pilot.name + " a bien rejoint l'Alliance", "", {
+          this.snackBar.open(pilot.name + " a bien rejoint l'Alliance", '', {
             duration: 2000,
-            verticalPosition: "top",
-            horizontalPosition: "center",
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
           });
           this.dialogRef.close(true);
         },
@@ -73,7 +77,7 @@ export class CreatePilotModalComponent implements OnInit {
       // Gère le cas où l'âge n'est pas dans la plage valide
       console.error("L'âge du pilote n'est pas dans la plage valide.");
     }
-}
+  }
 }
 export class CreatePilotModalModel {
   constructor(public message: string) {}

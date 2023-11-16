@@ -9,19 +9,25 @@ import { MissionStatus } from 'src/app/models/enums/mission-status';
 @Component({
   selector: 'app-end-mission-modal',
   templateUrl: './end-mission-modal.component.html',
-  styleUrls: ['./end-mission-modal.component.scss']
+  styleUrls: ['./end-mission-modal.component.scss'],
 })
 export class EndMissionModalComponent implements OnInit {
+  // Attribut
   public form!: FormGroup;
   protected missionStatus: any[] = Object.values(MissionStatus).filter(
     (status) => typeof status !== 'number'
   );
-  protected filterMissionStatus: any[] = 
-  this.missionStatus.filter((status) => status != 'EN_COURS');
+  protected filterMissionStatus: any[] = this.missionStatus.filter(
+    (status) => status != 'EN_COURS'
+  );
 
-  public mission!: Mission;
+  public missionToClose!: Mission;
+  public missionClosed!: Mission;
   public message!: string;
+  public newFlightHours!: number;
+  public newMissionStatus!: MissionStatus;
 
+  // Constructeur
   constructor(
     private snackBar: MatSnackBar,
     private missionService: MissionService,
@@ -29,7 +35,10 @@ export class EndMissionModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: EndMissionModalModel // data = Les informations que j'ai passé de mon autre composants vers la modal
   ) {
     this.message = data.message;
+    this.missionToClose = data.missionToClose;
   }
+
+  // Méthode
 
   ngOnInit(): void {
     this.form = new FormGroup<any>({
@@ -38,35 +47,36 @@ export class EndMissionModalComponent implements OnInit {
     });
   }
 
-
-
   endMission(): void {
-    this.mission = {
-      id: this.mission.id,
-      name: this.mission.name,
-      missionType: this.mission.missionType,
-      pilots: this.mission.pilots,
-      flightHours: this.form.get("flightHours")?.value,
-      missionStatus: this.form.get("missionStatus")?.value
-    }
-    console.log(this)
+    this.missionClosed = {
+      id: this.missionToClose.id,
+      name: this.missionToClose.name,
+      missionType: this.missionToClose.missionType,
+      pilots: this.missionToClose.pilots,
+      flightHours: this.form.get('flightHours')?.value,
+      missionStatus: this.form.get('missionStatus')?.value,
+    };
 
-    this.missionService.endMission(this.mission).subscribe({
-      next: (mission) => {
-        this.snackBar.open(mission.name + "est bien terminée", "", {
-          duration: 2000,
-          verticalPosition: "top",
-          horizontalPosition: "center",
+    if (this.missionToClose.id) {
+      this.missionService
+        .endMission(this.missionToClose.id, this.missionClosed)
+        .subscribe({
+          next: (mission) => {
+            this.snackBar.open(mission.name + 'est bien terminée', '', {
+              duration: 2000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center',
+            });
+            this.dialogRef.close(true);
+          },
+          error: (err) => {
+            console.error(err.error.detail);
+          },
         });
-        this.dialogRef.close(true);
-      },
-      error: (err) => {
-        console.error(err.error.detail);
-      }
-    })
+    }
   }
 }
-export class EndMissionModalModel {
-  constructor(public message: string, public mission: Mission) { }
-}
 
+export class EndMissionModalModel {
+  constructor(public message: string, public missionToClose: Mission) {}
+}

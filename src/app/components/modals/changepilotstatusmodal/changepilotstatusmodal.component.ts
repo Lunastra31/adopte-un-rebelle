@@ -9,10 +9,9 @@ import { PilotStatus } from 'src/app/models/enums/pilot-status';
 @Component({
   selector: 'app-changepilotstatusmodal',
   templateUrl: './changepilotstatusmodal.component.html',
-  styleUrls: ['./changepilotstatusmodal.component.scss']
+  styleUrls: ['./changepilotstatusmodal.component.scss'],
 })
 export class ChangepilotstatusmodalComponent implements OnInit {
-
   // LES ATTRIBUTS DE L'OBJET //
   public form!: FormGroup;
   public pilotChangedStatus!: Pilot;
@@ -32,6 +31,7 @@ export class ChangepilotstatusmodalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: ChangepilotstatusmodalModel // data = Les informations que j'ai passé de mon autre composants vers la modal
   ) {
     this.message = data.message;
+    this.pilotChangedStatus = data.pilotChangedStatus;
   }
 
   // LES METHODES / FONCTIONS //
@@ -42,33 +42,29 @@ export class ChangepilotstatusmodalComponent implements OnInit {
     });
   }
 
-  changePilotStatus() : void {
-
-    this.newStatus = this.form.get("pilotStatus")?.value;
+  changePilotStatus(): void {
+    this.newStatus = this.form.get('pilotStatus')?.value;
 
     if (this.pilotChangedStatus.id) {
-      this.pilotService.changePilotStatus(this.newStatus, this.pilotChangedStatus.id).subscribe({
-        next: (res) => {
-          this.snackBar.open(res.name + "a bien été modifié", "", {
-            duration: 2000,
-            verticalPosition: "top",
-            horizontalPosition: "center",
-          });
-          this.dialogRef.close(true);
-        },
-        error: (err) => {
-          const errorDetail = err.error ? err.error.detail : 'Unknown error';
-          console.error(errorDetail);
-        }
-      })
+      this.pilotService
+        .changePilotStatus(this.newStatus, this.pilotChangedStatus.id)
+        .subscribe({
+          next: (res) => {
+            this.snackBar.open(res.name + 'a bien été modifié', '', {
+              duration: 2000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center',
+            });
+            this.dialogRef.close(true);
+          },
+          error: (err) => {
+            const errorDetail = err.error ? err.error.detail : 'Unknown error';
+            console.error(errorDetail);
+          },
+        });
     }
-}
+  }
 }
 export class ChangepilotstatusmodalModel {
-  constructor(public message: string, pilotChangedStatus : Pilot) { }
-  }
-
-
-
-
-
+  constructor(public message: string, public pilotChangedStatus: Pilot) {}
+}
