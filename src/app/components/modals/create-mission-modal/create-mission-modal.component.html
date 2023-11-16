@@ -1,28 +1,37 @@
 <form [formGroup]="form" class="form">
-    <div class="dialog-container">
-      <h1 mat-dialog-title>Créer une nouvelle mission</h1>
-      <div mat-dialog-content class="form-container">
-        <mat-form-field appearance="fill">
-          <mat-label>Nom de la mission</mat-label>
-          <input matInput formControlName="name" />
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Définir le type de mission</mat-label>
-            <mat-select disableRipple formControlName="missionType">
-              <mat-option [value]="missionType" *ngFor="let missionType of missionTypes">
-                {{ missionType }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        <button
-          type="submit"
-          mat-raised-button
-          color="primary"
-          (click)="createMission()"
-        >
-          Créer la mission
-        </button>
-      </div>
+  <div class="dialog-container">
+    <h1 mat-dialog-title>Créer une nouvelle mission</h1>
+    <div mat-dialog-content class="form-container">
+      <mat-form-field appearance="fill">
+        <mat-label>Nom de la mission</mat-label>
+        <input matInput formControlName="name" />
+        <mat-error *ngIf="form.get('name')?.hasError('required')">
+          Nom de mission requis.
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Définir le type de mission</mat-label>
+        <mat-select disableRipple formControlName="missionType">
+          <mat-option
+            [value]="missionType"
+            *ngFor="let missionType of missionTypes"
+          >
+            {{ missionType }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('name')?.hasError('required')">
+          Type de la mission requis.
+        </mat-error>
+      </mat-form-field>
+      <mat-error *ngIf="form.get('name')?.hasError('required')"></mat-error>
+      <button
+        type="submit"
+        mat-raised-button
+        color="primary"
+        (click)="createMission()"
+      >
+        Créer la mission
+      </button>
     </div>
-  </form>
-  
+  </div>
+</form>

@@ -5,25 +5,41 @@
       <mat-form-field appearance="fill">
         <mat-label>Nom</mat-label>
         <input matInput formControlName="name" />
+        <mat-error *ngIf="form.get('name')?.hasError('required')">
+          Nom du pilote requis.
+        </mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Prénom</mat-label>
         <input matInput formControlName="surname" />
+        <mat-error *ngIf="form.get('surname')?.hasError('required')">
+          Prénom du pilote requis.
+        </mat-error>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Choisir une race</mat-label>
         <mat-select disableRipple formControlName="pilotBreed">
-          <mat-option [value]="pilotBreed" *ngFor="let pilotBreed of pilotBreeds">
+          <mat-option
+            [value]="pilotBreed"
+            *ngFor="let pilotBreed of pilotBreeds"
+          >
             {{ pilotBreed }}
           </mat-option>
         </mat-select>
+        <mat-error *ngIf="form.get('pilotBreed')?.hasError('required')">
+          Race du pilote requis.
+        </mat-error>
       </mat-form-field>
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" class="age">
         <mat-label>Âge</mat-label>
         <input matInput formControlName="age" />
-        <div *ngIf="form.get('age')?.hasError('min') || form.get('age')?.hasError('max')">
+        <mat-error
+          *ngIf="
+            form.get('age')?.hasError('min') || form.get('age')?.hasError('max')
+          "
+        >
           {{ errorMessages.age }}
-        </div>
+        </mat-error>
       </mat-form-field>
       <button
         type="submit"

@@ -65,36 +65,11 @@ export class MissionPageComponent implements OnInit {
     this.missionService.getAllMissions().subscribe({
       next: (missions) => {
         this.missions = missions;
-        //this.filterMission()
+        this.filterMission();
         this.dataSource = new MatTableDataSource<Mission>(this.missions);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.matSort;
         console.log(this.missions);
-      },
-    });
-  }
-
-  getPilotsAvailableWithStarshipBeforeModal(missionType: MissionType): void {
-    this.pilotService.getAllPilots().subscribe({
-      next: (pilots: Pilot[]) => {
-        console.log(pilots);
-
-        if (missionType.toString(0) === 'COMBAT') {
-          this.pilotsAvailableWithStarship = pilots.filter((pilot) => {
-            return (
-              pilot.pilotStatus.toString(0) === 'DISPONIBLE' &&
-              pilot.hasStarship &&
-              !pilot.trainee
-            );
-          });
-        } else if (missionType.toString(1) === 'ENTRAINEMENT') {
-          this.pilotsAvailableWithStarship = pilots.filter((pilot) => {
-            return (
-              pilot.pilotStatus.toString(1) === 'DISPONIBLE' &&
-              pilot.hasStarship
-            );
-          });
-        }
       },
     });
   }
@@ -131,12 +106,9 @@ export class MissionPageComponent implements OnInit {
   }
 
   redirectToAddPilotsToMission(mission: Mission) {
-    this.getPilotsAvailableWithStarship();
-    console.log(this.pilotsAvailableWithStarship);
     const dialogData = new AddPilotsToMissionModalModel(
       'Ajouter des pilotes à la mission',
-      mission,
-      this.pilotsAvailableWithStarship
+      mission
     );
     this.dialog
       .open(AddPilotsToMissionModalComponent, {
@@ -167,41 +139,31 @@ export class MissionPageComponent implements OnInit {
   }
 
   applyFilter(event: Event) {
-    // const filterValue = (event.target as HTMLInputElement).value;
-    // this.dataSource.filter = filterValue.trim().toLowerCase();
-    //
-    // if (this.dataSource.paginator) {
-    //   this.dataSource.paginator.firstPage();
-    // }
-    // this.filterMission(); // Appliquer le filtrage
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+    this.filterMission(); // Appliquer le filtrage
   }
 
   handleFilterChange(event: MatRadioChange) {
-    // this.selectedFilter = event.value;
-    // console.log(this.selectedFilter);
-    //
-    // this.getAllMissions(); // Appliquer le filtrage des matériaux
+    this.selectedFilter = event.value;
+    console.log(this.selectedFilter);
+
+    this.getAllMissions();
   }
 
   filterMission() {
-    // if (this.selectedFilter === 'all') {
-    //   // Pas de filtrage, afficher tous
-    //   return;
-    // }
-    // if (this.selectedFilter === 'EN_COURS') {
-    //   this.missions = this.missions.filter(
-    //     (mission) => mission
-    //   );
-    // }
-    // if (this.selectedFilter === 'ECHEC') {
-    //   this.missions = this.missions.filter(
-    //     (mission) => mission
-    //   );
-    // }
-    // if (this.selectedFilter === 'REUSSITE') {
-    //   this.missions = this.missions.filter(
-    //     (mission) => mission
-    //   );
-    // }
+    if (this.selectedFilter === 'all') {
+      return;
+    } else {
+      this.missions = this.missions.filter(
+        (mission) =>
+          // @ts-ignore
+          mission.missionStatus === this.selectedFilter
+      );
+    }
   }
 }
