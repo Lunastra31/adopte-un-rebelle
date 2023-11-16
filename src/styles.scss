@@ -36,4 +36,10 @@ $adopte-un-rebelle_front-theme: mat.define-light-theme((
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; 
+  background: url(./assets/image/ciel.gif) center;
+  background-repeat: space;
+  background-attachment: fixed;
+  background-size: cover;
+}
+ 

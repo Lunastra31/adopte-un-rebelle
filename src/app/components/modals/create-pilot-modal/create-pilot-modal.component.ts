@@ -21,6 +21,10 @@ export class CreatePilotModalComponent implements OnInit {
   );
   public newPilot!: Pilot;
   public message!: string;
+  public errorMessages = {
+    age: 'L\'âge doit être compris entre 10 et 800 ans.',
+  };
+  public hasError!: string;
 
   constructor(
     private snackBar: MatSnackBar,

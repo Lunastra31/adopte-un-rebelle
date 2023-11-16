@@ -21,6 +21,9 @@
       <mat-form-field appearance="fill">
         <mat-label>Âge</mat-label>
         <input matInput formControlName="age" />
+        <div *ngIf="form.get('age')?.hasError('min') || form.get('age')?.hasError('max')">
+          {{ errorMessages.age }}
+        </div>
       </mat-form-field>
       <button
         type="submit"

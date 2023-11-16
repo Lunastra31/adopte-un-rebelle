@@ -53,7 +53,7 @@ export class AffectPilotToStarshipModalComponent {
     if (this.starshipToAffect.id) {
       this.starshipServcie.affectPilot(this.pilotToAffect, this.starshipToAffect.id).subscribe({
         next: (res) => {
-          this.snackBar.open(res.name + "a bien été modifier", "", {
+          this.snackBar.open(res.name + "a bien été modifié", "", {
             duration: 2000,
             verticalPosition: "top",
             horizontalPosition: "center",
