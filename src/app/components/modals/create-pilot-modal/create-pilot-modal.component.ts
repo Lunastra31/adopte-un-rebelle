@@ -22,7 +22,7 @@ export class CreatePilotModalComponent implements OnInit {
   public newPilot!: Pilot;
   public message!: string;
   public errorMessages = {
-    age: 'L\'âge doit être compris entre 10 et 800 ans.',
+    age: "L'âge doit être compris entre 10 et 800 ans.",
   };
   public hasError!: string;
 
@@ -37,9 +37,9 @@ export class CreatePilotModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = new FormGroup<any>({
-      name: new FormControl(''),
-      surname: new FormControl(''),
-      pilotBreed: new FormControl(''),
+      name: new FormControl('', Validators.required),
+      surname: new FormControl('', Validators.required),
+      pilotBreed: new FormControl('', Validators.required),
       age: new FormControl(
         '',
         Validators.compose([Validators.min(10), Validators.max(800)])

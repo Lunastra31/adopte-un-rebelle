@@ -1,19 +1,18 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {MissionService} from 'src/app/services/mission.service';
-import {MissionType} from 'src/app/models/enums/mission-type';
-import {MissionStatus} from 'src/app/models/enums/mission-status';
-import {Mission} from "../../../models/mission";
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MissionService } from 'src/app/services/mission.service';
+import { MissionType } from 'src/app/models/enums/mission-type';
+import { MissionStatus } from 'src/app/models/enums/mission-status';
+import { Mission } from '../../../models/mission';
 
 @Component({
   selector: 'app-create-mission-modal',
   templateUrl: './create-mission-modal.component.html',
-  styleUrls: ['./create-mission-modal.component.scss']
+  styleUrls: ['./create-mission-modal.component.scss'],
 })
 export class CreateMissionModalComponent implements OnInit {
-
   public form!: FormGroup;
   protected missionTypes: any[] = Object.values(MissionType).filter(
     (value) => typeof value !== 'number'
@@ -32,36 +31,36 @@ export class CreateMissionModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = new FormGroup<any>({
-      name: new FormControl(''),
-      missionType: new FormControl(''),
+      name: new FormControl('', Validators.required),
+      missionType: new FormControl('', Validators.required),
     });
-    console.log(this.missionTypes)
+    console.log(this.missionTypes);
   }
 
-  createMission() : void {
+  createMission(): void {
     this.newMission = {
       id: null,
-      name: this.form.get("name")?.value,
-      missionType: this.form.get("missionType")?.value,
+      name: this.form.get('name')?.value,
+      missionType: this.form.get('missionType')?.value,
       pilots: null,
       flightHours: 0,
-      missionStatus: MissionStatus.EN_COURS
-    }
-    console.log(this)
+      missionStatus: MissionStatus.EN_COURS,
+    };
+    console.log(this);
 
     this.missionService.createMission(this.newMission).subscribe({
       next: (mission) => {
-        this.snackBar.open(mission.name + "a bien été créée", "", {
+        this.snackBar.open(mission.name + 'a bien été créée', '', {
           duration: 2000,
-          verticalPosition: "top",
-          horizontalPosition: "center",
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
         });
         this.dialogRef.close(true);
       },
       error: (err) => {
         console.error(err.error.detail);
-      }
-    })
+      },
+    });
   }
 }
 export class CreateMissionModalModel {
