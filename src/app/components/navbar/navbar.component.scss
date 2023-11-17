@@ -1,7 +1,25 @@
+#mat-toolbar{
+  background-color: rgb(139,0,0);
+  display: flex;
+justify-content: space-around;
+visibility: visible;
+z-index: 1000;
+}
+
 div {
   span {
     margin: 0 20px;
+    padding: 18px 8px ;
     cursor: pointer;
     font-size: 1.3rem;
+    color: whitesmoke;
+    transition: 0.1s;
+  }
+
+  span:hover{
+    background-color: rgba(0, 0, 0, 0.877);
+    color :rgb(139,0,0);
+    letter-spacing: 1px;
+    border-radius: 10px;
   }
 }
